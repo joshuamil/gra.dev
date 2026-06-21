@@ -5,13 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Graduated Review Authority: what it is and why it matters</title>
   <meta name="description" content="Graduated Review Authority is a governance model for AI-native software delivery. It matches how much review a change needs to the risk and evidence behind it, so trivial changes move quickly and risky ones still get human judgment.">
+  <meta name="author" content="Josh Miller">
+  <link rel="canonical" href="https://gra.dev/">
+  <meta name="theme-color" content="#f4f3f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Graduated Review Authority">
   <meta property="og:title" content="Graduated Review Authority">
   <meta property="og:description" content="A governance model that matches review depth to the risk and evidence behind each change.">
-  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://gra.dev/">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:author" content="Josh Miller">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Graduated Review Authority">
+  <meta name="twitter:description" content="A governance model that matches review depth to the risk and evidence behind each change.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Graduated Review Authority",
+    "name": "Graduated Review Authority",
+    "description": "A governance model for AI-native software delivery that matches review depth to the risk of a change and the strength of the evidence that it is correct.",
+    "inLanguage": "en",
+    "url": "https://gra.dev/",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://gra.dev/" },
+    "datePublished": "2026-06-21",
+    "dateModified": "2026-06-21",
+    "author": { "@type": "Person", "name": "Josh Miller", "url": "https://github.com/joshuamil" },
+    "creator": { "@type": "Person", "name": "Josh Miller", "url": "https://github.com/joshuamil" },
+    "publisher": { "@type": "Person", "name": "Josh Miller", "url": "https://github.com/joshuamil" },
+    "about": {
+      "@type": "DefinedTerm",
+      "name": "Graduated Review Authority",
+      "description": "Review authority is earned from objective evidence rather than assumed from who or what wrote the change: low-risk, well-validated work can move with less human review, while high-risk work always receives human judgment."
+    },
+    "keywords": [
+      "Graduated Review Authority",
+      "code review",
+      "AI-native delivery",
+      "software governance",
+      "review automation",
+      "deterministic gates"
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -194,20 +239,20 @@
           failed gate always pulls a change back up toward human review.
         </p>
       </div>
-      <div class="level-track" role="img" aria-label="Three review levels from least to most oversight: auto-eligible, agent review, human review.">
-        <article class="level" data-level="auto">
+      <ul class="level-track" aria-label="Review levels from least to most human oversight">
+        <li class="level" data-level="auto">
           <h3>Auto-eligible</h3>
           <p>Low-risk change that passed every gate cleanly.</p>
-        </article>
-        <article class="level" data-level="agent">
+        </li>
+        <li class="level" data-level="agent">
           <h3>Agent review</h3>
           <p>Moderate scope where deterministic plus agent review is sufficient.</p>
-        </article>
-        <article class="level" data-level="human">
+        </li>
+        <li class="level" data-level="human">
           <h3>Human review</h3>
           <p>High risk, ambiguity, or any failed validation.</p>
-        </article>
-      </div>
+        </li>
+      </ul>
     </section>
 
     <section id="human" aria-labelledby="human-title">
@@ -309,6 +354,9 @@
       "has this change earned a lighter review?"
     </p>
     <p class="footer-meta">Graduated Review Authority</p>
+    <p class="footer-attribution">
+      A concept by <a href="https://github.com/joshuamil" rel="author">Josh Miller</a>
+    </p>
   </footer>
 
   <script type="module" src="./main.js"></script>
