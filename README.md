@@ -26,8 +26,7 @@ The page walks through the model in nine sections:
 | --- | --- |
 | `index.html` | The full page content and structure |
 | `styles.css` | All styling, design tokens, and responsive layout |
-| `main.js` | Entry point; wires up progressive enhancement |
-| `section-nav.js` | Highlights the in-page nav link for the section currently in view |
+| `main.js` | Optional conveniences for the navigation menu (close on selection, Escape, or outside click) |
 
 This is a dependency-free static site with no build step, no framework, and no package manager. It is plain HTML, CSS, and ES modules.
 
@@ -43,4 +42,4 @@ Then visit `http://localhost:8000`.
 
 ## Accessibility
 
-The page is built to be usable without JavaScript. Section-nav highlighting is purely a visual aid layered on top via `IntersectionObserver`; the page remains fully navigable if it does not run. The markup uses semantic landmarks, a skip link, labelled sections, and respects `prefers-reduced-motion` and `prefers-color-scheme`.
+The page is built to be usable without JavaScript. The navigation is a native `<details>` disclosure that opens and closes on its own; JavaScript only adds conveniences such as closing on selection, Escape, or an outside click, and the page remains fully navigable if it does not run. The markup uses semantic landmarks, a skip link, labelled sections, and respects `prefers-reduced-motion` and `prefers-color-scheme`.
