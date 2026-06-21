@@ -708,3 +708,26 @@ td {
 .footer-attribution a:hover {
   color: var(--color-accent);
 }
+
+.footer-top {
+  margin: var(--space-4) 0 0;
+}
+
+.footer-top a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.footer-top a::after {
+  content: "\2191";
+  font-weight: 400;
+}
+
+.footer-top a:hover {
+  color: var(--color-accent);
+}
