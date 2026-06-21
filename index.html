@@ -39,9 +39,9 @@
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://gra.dev/" },
     "datePublished": "2026-06-21",
     "dateModified": "2026-06-21",
-    "author": { "@type": "Person", "name": "Josh Miller", "url": "https://github.com/joshuamil" },
-    "creator": { "@type": "Person", "name": "Josh Miller", "url": "https://github.com/joshuamil" },
-    "publisher": { "@type": "Person", "name": "Josh Miller", "url": "https://github.com/joshuamil" },
+    "author": { "@type": "Person", "name": "Josh Miller", "url": "https://jo5h.com" },
+    "creator": { "@type": "Person", "name": "Josh Miller", "url": "https://jo5h.com" },
+    "publisher": { "@type": "Person", "name": "Josh Miller", "url": "https://jo5h.com" },
     "about": {
       "@type": "DefinedTerm",
       "name": "Graduated Review Authority",
@@ -81,7 +81,9 @@
         <li><a href="#earning">Earning a level</a></li>
         <li><a href="#human">Human review</a></li>
         <li><a href="#graduation">Growing & shrinking</a></li>
+        <li><a href="#planning">Planning & sizing</a></li>
         <li><a href="#not">What it is not</a></li>
+        <li><a href="#context">Wider context</a></li>
       </ul>
     </nav>
   </header>
@@ -328,8 +330,56 @@
       </div>
     </section>
 
-    <section id="not" aria-labelledby="not-title">
+    <section id="planning" aria-labelledby="planning-title">
       <p class="section-number">08</p>
+      <h2 id="planning-title">Where this connects to planning</h2>
+      <div class="prose">
+        <p class="standfirst">
+          GRA decides how much review a change needs at merge time. Teams still have to
+          estimate that work up front, and the way they size it lines up with the same
+          idea.
+        </p>
+        <p>
+          One sizing approach used alongside GRA scores every piece of work on two
+          independent axes rather than a single number. <strong>G</strong> is the
+          <em>generation load</em>: how much net-new surface an agent has to produce. R
+          is the <em>review load</em>: how much a person must verify, given cross-team
+          contracts, data-integrity and security exposure, and ambiguity. Each axis takes
+          one of a few discrete values.
+        </p>
+        <p>
+          This sizing model lives in the delivery tooling, not in GRA itself. It matters
+          here for one reason: the review-load axis is an early <em>estimate</em> of where
+          a change will land once GRA evaluates it.
+        </p>
+      </div>
+      <div class="level-track" role="img" aria-label="How estimated review load maps to the three GRA review levels: low review load to auto-eligible, moderate to agent review, high to human review.">
+        <article class="level" data-level="auto">
+          <h3>Low review load</h3>
+          <p>Self-evident, locally scoped change. Estimated toward auto-eligible or a light gate.</p>
+        </article>
+        <article class="level" data-level="agent">
+          <h3>Moderate review load</h3>
+          <p>Some ambiguity or an owned contract. Estimated toward agent review and a standard gate.</p>
+        </article>
+        <article class="level" data-level="human">
+          <h3>High review load</h3>
+          <p>Cross-team contract or security and data-integrity risk. Estimated toward human review.</p>
+        </article>
+      </div>
+      <div class="prose">
+        <p>
+          The mapping is a prediction, not a decision. GRA still evaluates the real
+          evidence at merge time: a failed gate or a mandatory-human category always pulls
+          a change back up, regardless of how it was sized. And generation load (G) shapes
+          effort and estimates only, never how deeply a change is reviewed, which keeps the
+          review a change earns tied to risk and evidence rather than to its size.
+        </p>
+      </div>
+    </section>
+
+    <section id="not" aria-labelledby="not-title">
+      <p class="section-number">09</p>
       <h2 id="not-title">What it is not</h2>
       <div class="prose">
         <p>
@@ -346,6 +396,35 @@
         <li>It does not put speed ahead of correctness.</li>
       </ul>
     </section>
+
+    <section id="context" aria-labelledby="context-title">
+      <p class="section-number">09</p>
+      <h2 id="context-title">Part of a wider shift</h2>
+      <div class="prose">
+        <p>
+          GRA is not an isolated idea. It is one answer to a problem the industry is
+          now naming directly: when AI generates code faster than an organization can
+          verify it, the           constraint on delivery moves from <em>writing</em> software to
+          <em>trusting</em> it.
+          <a href="https://brennhill.substack.com" rel="external noopener" target="_blank">Brenn Hill</a>
+          calls that distance the
+          <a href="https://www.amazon.com/Delivery-Gap-Adoption-Engineering-Leaders-ebook/dp/B0GWRY2XH1" rel="external noopener" target="_blank"><strong>delivery gap</strong></a>
+          in his book of the same name, and argues that the teams who pull ahead are the
+          ones who build verification to match their generation speed, not the ones who
+          simply adopt more tools.
+        </p>
+        <p>
+          GRA and that line of work solve adjacent halves of the same problem. GRA
+          decides <strong>how much review a given change needs</strong>. Measurement
+          practices like Hill's focus on the cost and reliability of every
+          <em>accepted change</em>, rather than vanity metrics such as raw pull-request
+          volume, tell you <strong>whether your verification is keeping pace at all</strong>.
+          Routing review well and measuring whether the routing works are two parts of
+          the same emerging discipline: treating verification, not generation, as the
+          thing that has to be engineered.
+        </p>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -355,7 +434,7 @@
     </p>
     <p class="footer-meta">Graduated Review Authority</p>
     <p class="footer-attribution">
-      A concept by <a href="https://github.com/joshuamil" rel="author">Josh Miller</a>
+      A concept by <a href="https://jo5h.com" rel="author">Josh Miller</a>
     </p>
   </footer>
 
