@@ -41,7 +41,7 @@ GRA weighs three kinds of evidence about whether a change is safe. They are not 
 2. **Agent review (supporting).** An agent can flag risks, missing tests, unclear requirements, and security or architectural concerns. This is useful but probabilistic, so it counts as review evidence that informs decisions rather than as final authority, and only when the reviewing agent is independent of the one that wrote the change.
 3. **Human review (reserved for judgment).** People focus on what machines cannot settle: risk, ambiguity, architecture, and business intent. Human review is required wherever a change is risky enough to demand it, and is not spent re-checking what the gates already proved.
 
-For that ordering to mean anything, the evidence has to be hard to fake. The checks a change must pass are fixed before the change is written, so the author cannot quietly soften them to clear a gate. And when a required deterministic check is missing or cannot run, the change is blocked rather than waved through on a model's say-so: absent evidence is not the same as evidence of safety.
+For that ordering to mean anything, the evidence has to be hard to fake. The checks a change must pass are fixed before the change is written, so the author cannot quietly soften them to clear a gate. And when a required deterministic check is missing or cannot run, the change is blocked rather than waved through on a model's say-so: absent evidence is not the same as evidence of safety. By the same logic, a green result is only as strong as the check behind it. A gate that never fails may be thorough, or it may be blind, and only its record of catching real defects tells the two apart.
 
 ## 05. How a change earns its review level
 
@@ -83,13 +83,17 @@ Some categories of change carry enough inherent risk that no amount of automated
 - **Authority increases when** similar changes consistently pass deterministic validation, agent review, security and compliance checks, any required human review, and post-merge quality signals. A reliable history earns lighter-touch review.
 - **Authority decreases when** changes produce regressions, repeated failures, escaped defects, policy violations, or excessive remediation loops. A weak track record earns more oversight, never less.
 
+The unit of record is the **accepted change**: one that cleared its required review level and merged. Each accepted change leaves a trace worth keeping, the level it reached, how it was sized, how many attempts it took to pass, which gates fired, whether a person was needed, and how it behaved after it shipped. The track record is built from those traces, not from the raw count of changes or findings.
+
 Authority is tracked against **classes of change**, not against authors. A class is defined by what a change touches and how much risk it carries, its area, its criticality, its size, never by whether a person or an agent produced it. Trust is earned by a kind of work with a real history behind it; it is never assumed for a particular author, human or AI.
 
-How a change passes matters as much as whether it passes. Clearing every gate on the first attempt is stronger evidence than arriving there after repeated correction, and authority should rise only on sustained success after a change ships, no regressions and no escaped defects, not on a clean run before merge alone.
+How a change passes matters as much as whether it passes, but a clean pass is only ever as strong as the gates that judged it. Clearing weak gates on the first attempt proves little, because it cannot tell sound work apart from gates that were not looking. Clearing strong gates after they caught and forced real fixes is different evidence, and a change that needed several attempts when its class usually passes in one is treated as an anomaly that earns more scrutiny, not less. Authority should rise only on sustained success after a change ships, no regressions and no escaped defects, never on a clean run before merge alone.
 
 Improvement is judged by **outcomes**: fewer escaped defects and fewer correction loops. A falling number of findings is not progress on its own, because it can equally mean that detection has weakened. Only outcomes tell the two apart.
 
 The pipeline graduates as well. A weakness that keeps surfacing is converted into a stronger, earlier, deterministic check, so that what once needed judgment becomes something the gates settle on their own. Each escaped problem becomes the test that catches the next one.
+
+Taken together, this is the **feedback loop** that makes the model adaptive. The traces from accepted changes feed back into three places: the authority a class of change carries, the strength and ordering of the gates, and the guidance that future changes are generated and reviewed against. Because the loop is driven by outcomes, it tightens wherever escaped defects appear and loosens only where a real track record earns it. A change is not shipped and forgotten; it becomes evidence that shapes how the next similar change is built and judged.
 
 Crucially, the system can only ever **tighten** review based on a poor history. It never loosens review below what the risk of a change demands.
 

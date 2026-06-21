@@ -232,7 +232,10 @@
           checks a change must pass are fixed before the change is written, so the author
           cannot quietly soften them to clear a gate. And when a required deterministic
           check is missing or cannot run, the change is blocked rather than waved through
-          on a model's say-so: absent evidence is not the same as evidence of safety.
+          on a model's say-so: absent evidence is not the same as evidence of safety. By
+          the same logic, a green result is only as strong as the check behind it. A gate
+          that never fails may be thorough, or it may be blind, and only its record of
+          catching real defects tells the two apart.
         </p>
       </div>
     </section>
@@ -350,6 +353,14 @@
       </div>
       <div class="prose">
         <p>
+          The unit of record is the <strong>accepted change</strong>: one that cleared its
+          required review level and merged. Each accepted change leaves a trace worth
+          keeping, the level it reached, how it was sized, how many attempts it took to
+          pass, which gates fired, whether a person was needed, and how it behaved after it
+          shipped. The track record is built from those traces, not from the raw count of
+          changes or findings.
+        </p>
+        <p>
           Authority is tracked against <strong>classes of change</strong>, not against
           authors. A class is defined by what a change touches and how much risk it carries,
           its area, its criticality, its size, never by whether a person or an agent
@@ -357,11 +368,14 @@
           is never assumed for a particular author, human or AI.
         </p>
         <p>
-          How a change passes matters as much as whether it passes. Clearing every gate on
-          the first attempt is stronger evidence than arriving there after repeated
-          correction, and authority should rise only on sustained success after a change
-          ships, no regressions and no escaped defects, not on a clean run before merge
-          alone.
+          How a change passes matters as much as whether it passes, but a clean pass is
+          only ever as strong as the gates that judged it. Clearing weak gates on the first
+          attempt proves little, because it cannot tell sound work apart from gates that
+          were not looking. Clearing strong gates after they caught and forced real fixes is
+          different evidence, and a change that needed several attempts when its class
+          usually passes in one is treated as an anomaly that earns more scrutiny, not less.
+          Authority should rise only on sustained success after a change ships, no
+          regressions and no escaped defects, never on a clean run before merge alone.
         </p>
         <p>
           Improvement is judged by <strong>outcomes</strong>: fewer escaped defects and
@@ -374,6 +388,16 @@
           a stronger, earlier, deterministic check, so that what once needed judgment
           becomes something the gates settle on their own. Each escaped problem becomes the
           test that catches the next one.
+        </p>
+        <p>
+          Taken together, this is the <strong>feedback loop</strong> that makes the model
+          adaptive. The traces from accepted changes feed back into three places: the
+          authority a class of change carries, the strength and ordering of the gates, and
+          the guidance that future changes are generated and reviewed against. Because the
+          loop is driven by outcomes, it tightens wherever escaped defects appear and
+          loosens only where a real track record earns it. A change is not shipped and
+          forgotten; it becomes evidence that shapes how the next similar change is built
+          and judged.
         </p>
         <p>
           Crucially, the system can only ever <strong>tighten</strong> review based on a
