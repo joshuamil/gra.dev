@@ -36,6 +36,20 @@ The page walks through the model in nine sections:
 
 This is a dependency-free static site with no build step, no framework, and no package manager. It is plain HTML, CSS, and ES modules.
 
+## Keeping the content in sync
+
+`index.html` and `index.html.md` are hand-maintained copies of the same content, so they must change together. Two safeguards enforce this:
+
+- A local `pre-commit` hook that blocks a commit which touches one file but not the other. Activate it once after cloning:
+
+```bash
+./scripts/install-hooks.sh
+```
+
+  The hook lives in `.githooks/pre-commit`. Bypass it for an intentional one-sided change with `git commit --no-verify`.
+
+- A `Content sync check` GitHub Actions workflow that fails a push or pull request when only one of the two files changed.
+
 ## Running locally
 
 Open `index.html` directly in a browser, or serve the folder over HTTP so the ES module imports resolve:

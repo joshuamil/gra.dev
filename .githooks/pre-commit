@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# Block a commit that updates the page content without updating its Markdown
+# mirror (or the reverse). index.html and index.html.md are hand-maintained
+# copies of the same content, so they must move together.
+#
+# Bypass intentionally with: git commit --no-verify
+
+set -euo pipefail
+
+staged="$(git diff --cached --name-only)"
+
+html=no
+md=no
+printf '%s\n' "$staged" | grep -Fxq 'index.html' && html=yes || true
+printf '%s\n' "$staged" | grep -Fxq 'index.html.md' && md=yes || true
+
+if [ "$html" != "$md" ]; then
+  echo "pre-commit: index.html and index.html.md are out of sync in this commit." >&2
+  echo "  index.html staged:    $html" >&2
+  echo "  index.html.md staged: $md" >&2
+  echo "" >&2
+  echo "Update both files so the page and its Markdown mirror match," >&2
+  echo "or bypass this check with: git commit --no-verify" >&2
+  exit 1
+fi

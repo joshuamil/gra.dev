@@ -1,0 +1,49 @@
+name: Content sync check
+
+on:
+  pull_request:
+    paths:
+      - index.html
+      - index.html.md
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - index.html.md
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify index.html and index.html.md changed together
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags --depth=50 origin "${{ github.base_ref }}"
+            base="$(git merge-base "origin/${{ github.base_ref }}" HEAD)"
+          else
+            base="${{ github.event.before }}"
+            if [ -z "$base" ] || ! git cat-file -e "${base}^{commit}" 2>/dev/null; then
+              base="$(git rev-parse HEAD~1 2>/dev/null || git rev-parse HEAD)"
+            fi
+          fi
+
+          changed="$(git diff --name-only "$base" HEAD)"
+          html=no
+          md=no
+          printf '%s\n' "$changed" | grep -Fxq 'index.html' && html=yes || true
+          printf '%s\n' "$changed" | grep -Fxq 'index.html.md' && md=yes || true
+
+          if [ "$html" != "$md" ]; then
+            echo "::error::index.html and index.html.md must be updated together. index.html changed: ${html}, index.html.md changed: ${md}."
+            exit 1
+          fi
+
+          echo "index.html and index.html.md are in sync (both changed: ${html})."
