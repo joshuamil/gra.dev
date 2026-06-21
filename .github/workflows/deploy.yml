@@ -38,12 +38,11 @@ jobs:
             --exclude "*" \
             --include "index.html" \
             --include "styles.css" \
-            --include "main.js" \
-            --include "section-nav.js"
+            --include "main.js"
 
       - name: Set JavaScript content types
         run: |
-          for file in main.js section-nav.js; do
+          for file in main.js; do
             aws s3 cp "s3://${S3_BUCKET}/${file}" "s3://${S3_BUCKET}/${file}" \
               --content-type "text/javascript" \
               --metadata-directive REPLACE
