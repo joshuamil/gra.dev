@@ -1,24 +1,32 @@
 #!/usr/bin/env bash
 #
-# Finalize the gra.dev custom domain once the ACM certificate has validated.
+# Finalize a CloudFront + S3 custom domain once the ACM certificate has validated.
 #
-# Prerequisite: the Namecheap nameservers for gra.dev must point at the
+# Prerequisite: the registrar nameservers for the domain must point at the
 # Route53 hosted zone (delegation live) so the ACM DNS validation can complete.
 #
 # This script is idempotent. It:
 #   1. waits for the ACM certificate to reach ISSUED
-#   2. attaches the gra.dev alias + certificate to the CloudFront distribution
-#   3. creates Route53 alias A/AAAA records pointing gra.dev at CloudFront
+#   2. attaches the domain alias + certificate to the CloudFront distribution
+#   3. creates Route53 alias A/AAAA records pointing the domain at CloudFront
 #
-# It reads no secrets; it relies on the ambient AWS credentials/profile.
+# It reads no secrets and relies on the ambient AWS credentials/profile. All
+# account-specific values are supplied via environment variables so this script
+# can live in a public repository without disclosing account topology, e.g.:
+#
+#   DOMAIN=example.com \
+#   HOSTED_ZONE_ID=Z0123... \
+#   DISTRIBUTION_ID=E0123... \
+#   CERT_ARN=arn:aws:acm:us-east-1:<account>:certificate/<id> \
+#   ./infra/finalize-domain.sh
 
 set -euo pipefail
 
-AWS_REGION="us-east-1"
-HOSTED_ZONE_ID="Z03140913OKXO3O06B1M2"
-DISTRIBUTION_ID="E1FH6PHW9L9J5L"
-CERT_ARN="arn:aws:acm:us-east-1:563999587405:certificate/af4c7dbf-88f4-4150-a5b0-a841c862d308"
-DOMAIN="gra.dev"
+AWS_REGION="${AWS_REGION:-us-east-1}"
+DOMAIN="${DOMAIN:?set DOMAIN, e.g. example.com}"
+HOSTED_ZONE_ID="${HOSTED_ZONE_ID:?set HOSTED_ZONE_ID (Route53 zone for DOMAIN)}"
+DISTRIBUTION_ID="${DISTRIBUTION_ID:?set DISTRIBUTION_ID (CloudFront distribution)}"
+CERT_ARN="${CERT_ARN:?set CERT_ARN (ACM certificate ARN in us-east-1)}"
 # CloudFront's fixed hosted zone id for alias records (global constant).
 CLOUDFRONT_HOSTED_ZONE_ID="Z2FDTNDATAQYW2"
 

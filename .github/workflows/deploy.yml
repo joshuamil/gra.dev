@@ -14,8 +14,8 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  S3_BUCKET: wrking-production-gra
-  CLOUDFRONT_DISTRIBUTION_ID: E1FH6PHW9L9J5L
+  S3_BUCKET: ${{ vars.S3_BUCKET }}
+  CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
 
 jobs:
   deploy:
