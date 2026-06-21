@@ -28,6 +28,7 @@ The page walks through the model in nine sections:
 | `styles.css` | All styling, design tokens, and responsive layout |
 | `main.js` | Optional conveniences for the navigation menu (close on selection, Escape, or outside click) |
 | `favicon.svg` | Site favicon, a graduated three-bar mark in the review-level colors |
+| `fonts/` | Self-hosted Inter (latin subset, variable weight) so the page loads no third-party fonts |
 | `robots.txt` | Crawler directives and a pointer to the sitemap |
 | `sitemap.xml` | Sitemap listing the single canonical URL for search engines |
 
