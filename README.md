@@ -31,6 +31,7 @@ The page walks through the model in nine sections:
 | `fonts/` | Self-hosted Inter (latin subset, variable weight) so the page loads no third-party fonts |
 | `robots.txt` | Crawler directives and a pointer to the sitemap |
 | `sitemap.xml` | Sitemap listing the single canonical URL for search engines |
+| `llms.txt` | LLM-friendly overview of the model and key links, per the llmstxt.org spec |
 
 This is a dependency-free static site with no build step, no framework, and no package manager. It is plain HTML, CSS, and ES modules.
 

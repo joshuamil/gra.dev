@@ -42,6 +42,7 @@ jobs:
             --include "favicon.svg" \
             --include "robots.txt" \
             --include "sitemap.xml" \
+            --include "llms.txt" \
             --include "fonts/*"
 
       - name: Set JavaScript content types

@@ -1,0 +1,17 @@
+# Graduated Review Authority
+
+> Graduated Review Authority (GRA) is a governance model for AI-native software delivery. It matches how much review a change needs to the risk the change carries and the strength of the evidence that it is correct, so trivial changes move quickly and risky ones still receive human judgment.
+
+GRA replaces a single fixed review path with a graduated one. Review authority is earned from objective evidence rather than assumed from who or what wrote the change: low-risk, well-validated work can move with less human review, while high-risk work always receives human judgment. The published page at https://gra.dev is the authoritative source for the concept.
+
+The model rests on three sources of evidence (deterministic gates, agent review, and human review) and a dual-complexity sizing method that estimates review load and predicts the resulting review level: auto-eligible, agent review, or human review.
+
+## Docs
+
+- [Graduated Review Authority: full explainer](https://gra.dev/): The complete model in nine sections: what it is, why it exists, the core idea, the three sources of evidence, how a change earns its review level, when human review is always required, how authority grows and shrinks, where it connects to planning, and what it is not.
+- [Project overview in Markdown](https://raw.githubusercontent.com/joshuamil/gra.dev/main/README.md): A concise Markdown summary of the model and the nine sections of the page.
+
+## Optional
+
+- [Author: Josh Miller](https://www.linkedin.com/in/joshuamil/): Author of the concept.
+- [Sitemap](https://gra.dev/sitemap.xml): Canonical URL list for the site.
