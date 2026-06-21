@@ -83,17 +83,25 @@ Some categories of change carry enough inherent risk that no amount of automated
 - **Authority increases when** similar changes consistently pass deterministic validation, agent review, security and compliance checks, any required human review, and post-merge quality signals. A reliable history earns lighter-touch review.
 - **Authority decreases when** changes produce regressions, repeated failures, escaped defects, policy violations, or excessive remediation loops. A weak track record earns more oversight, never less.
 
+### What the track record is built from
+
 The unit of record is the **accepted change**: one that cleared its required review level and merged. Each accepted change leaves a trace worth keeping, the level it reached, how it was sized, how many attempts it took to pass, which gates fired, whether a person was needed, and how it behaved after it shipped. The track record is built from those traces, not from the raw count of changes or findings.
 
 Authority is tracked against **classes of change**, not against authors. A class is defined by what a change touches and how much risk it carries, its area, its criticality, its size, never by whether a person or an agent produced it. Trust is earned by a kind of work with a real history behind it; it is never assumed for a particular author, human or AI.
+
+### What a clean pass is worth
 
 How a change passes matters as much as whether it passes, but a clean pass is only ever as strong as the gates that judged it. Clearing weak gates on the first attempt proves little, because it cannot tell sound work apart from gates that were not looking. Clearing strong gates after they caught and forced real fixes is different evidence, and a change that needed several attempts when its class usually passes in one is treated as an anomaly that earns more scrutiny, not less. Authority should rise only on sustained success after a change ships, no regressions and no escaped defects, never on a clean run before merge alone.
 
 Improvement is judged by **outcomes**: fewer escaped defects and fewer correction loops. A falling number of findings is not progress on its own, because it can equally mean that detection has weakened. Only outcomes tell the two apart.
 
+### The feedback loop
+
 The pipeline graduates as well. A weakness that keeps surfacing is converted into a stronger, earlier, deterministic check, so that what once needed judgment becomes something the gates settle on their own. Each escaped problem becomes the test that catches the next one.
 
 Taken together, this is the **feedback loop** that makes the model adaptive. The traces from accepted changes feed back into three places: the authority a class of change carries, the strength and ordering of the gates, and the guidance that future changes are generated and reviewed against. Because the loop is driven by outcomes, it tightens wherever escaped defects appear and loosens only where a real track record earns it. A change is not shipped and forgotten; it becomes evidence that shapes how the next similar change is built and judged.
+
+### Review only ever tightens
 
 Crucially, the system can only ever **tighten** review based on a poor history. It never loosens review below what the risk of a change demands.
 
