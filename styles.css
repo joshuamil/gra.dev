@@ -569,9 +569,15 @@ td {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
   max-width: var(--measure);
+}
+
+@media (min-width: 56rem) {
+  .level-track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .level {
