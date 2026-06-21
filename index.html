@@ -172,6 +172,13 @@
           "<em>can the AI do this?</em>" It is "<em>has this change produced enough
           objective evidence to safely reduce human review?</em>"
         </p>
+        <p>
+          It also settles who is in control. Writing a change and deciding whether it may
+          ship are different jobs. The decision of what happens next, whether to retry,
+          advance, or stop for a person, is made by deterministic control, never by the
+          model whose work is under review. A model can propose; it cannot grant itself
+          passage.
+        </p>
       </div>
     </section>
 
@@ -201,7 +208,8 @@
           <p>
             An agent can flag risks, missing tests, unclear requirements, and security or
             architectural concerns. This is useful but probabilistic, so it counts as
-            review evidence that informs decisions rather than as final authority.
+            review evidence that informs decisions rather than as final authority, and only
+            when the reviewing agent is independent of the one that wrote the change.
           </p>
         </li>
         <li class="evidence-layer" data-weight="judgment">
@@ -214,6 +222,15 @@
           </p>
         </li>
       </ol>
+      <div class="prose">
+        <p>
+          For that ordering to mean anything, the evidence has to be hard to fake. The
+          checks a change must pass are fixed before the change is written, so the author
+          cannot quietly soften them to clear a gate. And when a required deterministic
+          check is missing or cannot run, the change is blocked rather than waved through
+          on a model's say-so: absent evidence is not the same as evidence of safety.
+        </p>
+      </div>
     </section>
 
     <section id="earning" aria-labelledby="earning-title">
@@ -239,6 +256,11 @@
           Weighed together, those signals point a change toward one of three levels of
           review. Lower levels are only reachable when the evidence supports them; risk or a
           failed gate always pulls a change back up toward human review.
+        </p>
+        <p>
+          Correcting a failed gate is expected, but the attempt is bounded. When a change
+          cannot reach a clean pass within that budget, the repeated failure is itself a
+          signal: the change escalates to a person rather than looping indefinitely.
         </p>
       </div>
       <ul class="level-track" aria-label="Review levels from least to most human oversight">
@@ -324,6 +346,32 @@
       </div>
       <div class="prose">
         <p>
+          Authority is tracked against <strong>classes of change</strong>, not against
+          authors. A class is defined by what a change touches and how much risk it carries,
+          its area, its criticality, its size, never by whether a person or an agent
+          produced it. Trust is earned by a kind of work with a real history behind it; it
+          is never assumed for a particular author, human or AI.
+        </p>
+        <p>
+          How a change passes matters as much as whether it passes. Clearing every gate on
+          the first attempt is stronger evidence than arriving there after repeated
+          correction, and authority should rise only on sustained success after a change
+          ships, no regressions and no escaped defects, not on a clean run before merge
+          alone.
+        </p>
+        <p>
+          Improvement is judged by <strong>outcomes</strong>: fewer escaped defects and
+          fewer correction loops. A falling number of findings is not progress on its own,
+          because it can equally mean that detection has weakened. Only outcomes tell the
+          two apart.
+        </p>
+        <p>
+          The pipeline graduates as well. A weakness that keeps surfacing is converted into
+          a stronger, earlier, deterministic check, so that what once needed judgment
+          becomes something the gates settle on their own. Each escaped problem becomes the
+          test that catches the next one.
+        </p>
+        <p>
           Crucially, the system can only ever <strong>tighten</strong> review based on a
           poor history. It never loosens review below what the risk of a change demands.
         </p>
@@ -335,45 +383,94 @@
       <h2 id="planning-title">Where this connects to planning</h2>
       <div class="prose">
         <p class="standfirst">
-          GRA decides how much review a change needs at merge time. Teams still have to
-          estimate that work up front, and the way they size it lines up with the same
-          idea.
+          GRA decides how much review a change needs at merge time. Long before that,
+          teams have to estimate the work, and the model they use to size it is built on
+          the same instinct about risk.
         </p>
         <p>
-          One sizing approach used alongside GRA scores every piece of work on two
-          independent axes rather than a single number. <strong>G</strong> is the
-          <em>generation load</em>: how much net-new surface an agent has to produce. R
-          is the <em>review load</em>: how much a person must verify, given cross-team
-          contracts, data-integrity and security exposure, and ambiguity. Each axis takes
-          one of a few discrete values.
+          That model is <strong>dual-complexity sizing</strong>. It lives in the delivery
+          tooling rather than in GRA itself, and despite the overlapping initials it is a
+          separate idea. Instead of collapsing a task into one velocity number, it scores
+          two independent axes. <strong>Generation load (G)</strong> measures how much
+          net-new surface an agent has to build: endpoints, schema, components, and UI. It
+          is a proxy for blast radius. <strong>Review load (R)</strong> measures how much a
+          person has to verify before trusting the result, such as cross-team contracts,
+          data-integrity and security risk, and ambiguity. Each axis is scored on the same
+          short scale.
+        </p>
+      </div>
+      <table>
+        <caption>How each axis is scored</caption>
+        <thead>
+          <tr>
+            <th scope="col">Value</th>
+            <th scope="col">Generation load (G)</th>
+            <th scope="col">Review load (R)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Trivial: config or copy</td>
+            <td>Self-evident; tests cover it</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Small: one surface</td>
+            <td>Local; one reviewer</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Moderate: a few surfaces</td>
+            <td>Some ambiguity or edge cases</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Large: a multi-surface feature</td>
+            <td>An owned contract; integration risk</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td>Cross-cutting: schema and flows</td>
+            <td>A cross-team contract or security and data-integrity risk</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="prose">
+        <p>
+          The two axes combine into a single estimate:
+          <strong>story points are the Fibonacci value of R, stepped up one notch when G
+          reaches 5 or more</strong>. Review load sets the floor; heavy generation only
+          adds a margin on top. A small build that touches a cross-team contract (G 3,
+          R 8) still scores 8 points, because the review is what dominates, while a large
+          but self-contained feature (G 5, R 3) lands at 5.
         </p>
         <p>
-          This sizing model lives in the delivery tooling, not in GRA itself. It matters
-          here for one reason: the review-load axis is an early <em>estimate</em> of where
-          a change will land once GRA evaluates it.
+          The review-load axis is also the earliest read on GRA. The heavier the review a
+          change is expected to need, the higher the level it is likely to land in:
         </p>
       </div>
       <div class="level-track" role="img" aria-label="How estimated review load maps to the three GRA review levels: low review load to auto-eligible, moderate to agent review, high to human review.">
         <article class="level" data-level="auto">
-          <h3>Low review load</h3>
-          <p>Self-evident, locally scoped change. Estimated toward auto-eligible or a light gate.</p>
+          <h3>Low review load (R 1&ndash;2)</h3>
+          <p>Self-evident, locally scoped change. Estimated toward auto-eligible: light gates and, at most, a peer glance.</p>
         </article>
         <article class="level" data-level="agent">
-          <h3>Moderate review load</h3>
-          <p>Some ambiguity or an owned contract. Estimated toward agent review and a standard gate.</p>
+          <h3>Moderate review load (R 3&ndash;5)</h3>
+          <p>Some ambiguity or an owned contract. Estimated toward agent review and a standard gate with a contract check.</p>
         </article>
         <article class="level" data-level="human">
-          <h3>High review load</h3>
-          <p>Cross-team contract or security and data-integrity risk. Estimated toward human review.</p>
+          <h3>High review load (R 8)</h3>
+          <p>Cross-team contract or security and data-integrity risk. Estimated toward human review and senior sign-off.</p>
         </article>
       </div>
       <div class="prose">
         <p>
           The mapping is a prediction, not a decision. GRA still evaluates the real
           evidence at merge time: a failed gate or a mandatory-human category always pulls
-          a change back up, regardless of how it was sized. And generation load (G) shapes
-          effort and estimates only, never how deeply a change is reviewed, which keeps the
-          review a change earns tied to risk and evidence rather than to its size.
+          a change back up, regardless of how it was sized. And generation load never
+          enters that decision; it shapes effort and points only, which keeps the review a
+          change earns tied to its risk and evidence rather than to its size.
         </p>
       </div>
     </section>
@@ -392,19 +489,22 @@
         <li>It does not make human review disappear.</li>
         <li>It does not let prompts replace tests.</li>
         <li>It does not let natural-language rules replace deterministic gates.</li>
+        <li>It does not let a change weaken the tests that judge it.</li>
+        <li>It does not let an author, human or AI, review its own work.</li>
+        <li>It does not fall back to opinion when a required check cannot run.</li>
         <li>It does not let a confidence score override failed validation.</li>
         <li>It does not put speed ahead of correctness.</li>
       </ul>
     </section>
 
     <section id="context" aria-labelledby="context-title">
-      <p class="section-number">09</p>
+      <p class="section-number">10</p>
       <h2 id="context-title">Part of a wider shift</h2>
       <div class="prose">
         <p>
           GRA is not an isolated idea. It is one answer to a problem the industry is
           now naming directly: when AI generates code faster than an organization can
-          verify it, the           constraint on delivery moves from <em>writing</em> software to
+          verify it, the constraint on delivery moves from <em>writing</em> software to
           <em>trusting</em> it.
           <a href="https://brennhill.substack.com" rel="external noopener" target="_blank">Brenn Hill</a>
           calls that distance the
@@ -414,14 +514,16 @@
           simply adopt more tools.
         </p>
         <p>
-          GRA and that line of work solve adjacent halves of the same problem. GRA
-          decides <strong>how much review a given change needs</strong>. Measurement
-          practices like Hill's focus on the cost and reliability of every
-          <em>accepted change</em>, rather than vanity metrics such as raw pull-request
-          volume, tell you <strong>whether your verification is keeping pace at all</strong>.
-          Routing review well and measuring whether the routing works are two parts of
-          the same emerging discipline: treating verification, not generation, as the
-          thing that has to be engineered.
+          GRA and that work address different layers of the same problem. Closing the
+          delivery gap means building verification infrastructure and measuring whether
+          it keeps pace with generation: Hill's focus on the cost and reliability of
+          every <em>accepted change</em>, rather than vanity metrics such as raw
+          pull-request volume, is how a team knows it does. GRA is the
+          <strong>routing layer</strong> that sits on top of that infrastructure. Given
+          a change and the evidence behind it, GRA decides <strong>how much review the
+          change actually needs</strong>. One discipline measures whether your
+          verification can be trusted; the other spends that trust where it counts. GRA
+          assumes the infrastructure is there. It does not replace the work of building it.
         </p>
       </div>
     </section>
