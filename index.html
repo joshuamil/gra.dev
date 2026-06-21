@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Graduated Review Authority — what it is and why it matters</title>
+  <meta name="description" content="Graduated Review Authority is a governance model for AI-native software delivery. It matches how much review a change needs to the risk and evidence behind it, so trivial changes move quickly and risky ones still get human judgment.">
+  <meta property="og:title" content="Graduated Review Authority">
+  <meta property="og:description" content="A governance model that matches review depth to the risk and evidence behind each change.">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="kicker">A governance model for AI-native delivery</p>
+      <h1>Graduated Review Authority</h1>
+      <p class="lede">
+        When software is generated faster than people can review it, treating every change
+        the same way is wasteful and unsafe. Graduated Review Authority decides
+        <em>how much review a change needs</em> from the risk it carries and the evidence
+        behind it — so low-risk work moves quickly and high-risk work still gets human judgment.
+      </p>
+    </div>
+    <nav class="page-nav" aria-label="On this page">
+      <ul>
+        <li><a href="#definition">What it is</a></li>
+        <li><a href="#why">Why it exists</a></li>
+        <li><a href="#principle">The core idea</a></li>
+        <li><a href="#evidence">Sources of evidence</a></li>
+        <li><a href="#earning">Earning a level</a></li>
+        <li><a href="#human">Human review</a></li>
+        <li><a href="#graduation">Growing & shrinking</a></li>
+        <li><a href="#not">What it is not</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section id="definition" aria-labelledby="definition-title">
+      <p class="section-number">01</p>
+      <h2 id="definition-title">What it is</h2>
+      <div class="prose">
+        <p class="standfirst">
+          Graduated Review Authority (GRA) is a way of deciding how thoroughly a code change
+          must be reviewed before it ships — based on objective evidence rather than on who, or what, wrote it.
+        </p>
+        <p>
+          In most teams every change follows the same path: a person writes it, another
+          person reviews it, and it merges. That made sense when writing code was the slow,
+          expensive step. In AI-native delivery, generation is fast and cheap, and human
+          review becomes the bottleneck. GRA replaces the single fixed path with a
+          <strong>graduated</strong> one: the amount and depth of review scales up or down
+          with the risk of the change and the strength of the evidence that it is correct.
+        </p>
+        <p>
+          A trivial copy fix that passes every automated check does not need the same
+          scrutiny as a change to how payments are calculated. GRA makes that difference
+          explicit, consistent, and defensible.
+        </p>
+      </div>
+    </section>
+
+    <section id="why" aria-labelledby="why-title">
+      <p class="section-number">02</p>
+      <h2 id="why-title">Why it exists</h2>
+      <div class="prose">
+        <p>
+          AI agents can now produce large volumes of working code. That shifts the
+          constraint in software delivery away from <em>writing</em> and onto
+          <em>verifying</em>. Two failure modes appear when review does not adapt:
+        </p>
+      </div>
+      <div class="problem-grid">
+        <article class="problem-card">
+          <h3>Reviewing everything equally is too slow</h3>
+          <p>
+            When every change waits for the same full human review, the queue grows
+            faster than people can clear it. Safe, obvious changes sit behind risky ones,
+            and the speed advantage of generation is lost to the review backlog.
+          </p>
+        </article>
+        <article class="problem-card">
+          <h3>Reviewing nothing carefully is unsafe</h3>
+          <p>
+            The opposite reflex — trusting the agent and waving changes through — lets
+            high-risk work reach production without the judgment it needs. Authentication,
+            money, and regulated data do not become low-risk just because an AI is confident.
+          </p>
+        </article>
+      </div>
+      <div class="prose">
+        <p>
+          GRA exists to resolve this tension. It keeps humans focused on the changes where
+          their judgment matters most, and stops asking them to re-check the things a
+          machine can verify objectively. The purpose is not to remove people from
+          delivery — it is to spend their attention where it is most valuable.
+        </p>
+      </div>
+    </section>
+
+    <section id="principle" aria-labelledby="principle-title">
+      <p class="section-number">03</p>
+      <h2 id="principle-title">The core idea</h2>
+      <figure class="pull-quote">
+        <blockquote>
+          <p>Generation is not authority. The pipeline is the authority.</p>
+        </blockquote>
+      </figure>
+      <div class="prose">
+        <p>
+          Anyone — a person or an agent — can write code, tests, or a remediation plan.
+          Producing something does not grant permission to ship it. In GRA, approval comes
+          only from passing defined validation, and review authority is
+          <strong>earned through demonstrated reliability</strong>, not assumed because the
+          author is human or because the author is AI.
+        </p>
+        <p>
+          This reframes the question a team asks about every change. The question is not
+          "<em>can the AI do this?</em>" It is "<em>has this change produced enough
+          objective evidence to safely reduce human review?</em>"
+        </p>
+      </div>
+    </section>
+
+    <section id="evidence" aria-labelledby="evidence-title">
+      <p class="section-number">04</p>
+      <h2 id="evidence-title">Three sources of evidence</h2>
+      <div class="prose">
+        <p>
+          GRA weighs three kinds of evidence about whether a change is safe. They are not
+          equal: deterministic checks are the strongest, human judgment is reserved for
+          where it is genuinely needed.
+        </p>
+      </div>
+      <ol class="evidence-stack" aria-label="Sources of evidence, strongest first">
+        <li class="evidence-layer" data-weight="strong">
+          <p class="evidence-tag">Strongest</p>
+          <h3>Deterministic gates</h3>
+          <p>
+            Type checking, linting, formatting, unit and integration tests, security and
+            secrets scans, compliance and policy checks. They give the same answer every
+            time, so a failure can block a release outright — and no opinion overrides it.
+          </p>
+        </li>
+        <li class="evidence-layer" data-weight="medium">
+          <p class="evidence-tag">Supporting</p>
+          <h3>Agent review</h3>
+          <p>
+            An agent can flag risks, missing tests, unclear requirements, and security or
+            architectural concerns. This is useful but probabilistic, so it counts as
+            review evidence — informing decisions — rather than as final authority.
+          </p>
+        </li>
+        <li class="evidence-layer" data-weight="judgment">
+          <p class="evidence-tag">Reserved for judgment</p>
+          <h3>Human review</h3>
+          <p>
+            People focus on what machines cannot settle: risk, ambiguity, architecture, and
+            business intent. Human review is required wherever a change is risky enough to
+            demand it, and is not spent re-checking what the gates already proved.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="earning" aria-labelledby="earning-title">
+      <p class="section-number">05</p>
+      <h2 id="earning-title">How a change earns its review level</h2>
+      <div class="prose">
+        <p>
+          The review a change requires is not fixed by its size alone. It is shaped by a
+          set of signals about how risky and how well-understood the change is:
+        </p>
+      </div>
+      <ul class="factor-list">
+        <li>Risk of the change</li>
+        <li>Criticality of the affected system</li>
+        <li>Confidence from deterministic validation</li>
+        <li>Quality of test coverage</li>
+        <li>Security and compliance exposure</li>
+        <li>Historical success of similar changes</li>
+        <li>Novelty or ambiguity of the work</li>
+      </ul>
+      <div class="prose">
+        <p>
+          Weighed together, those signals point a change toward one of three levels of
+          review. Lower levels are only reachable when the evidence supports them; risk or a
+          failed gate always pulls a change back up toward human review.
+        </p>
+      </div>
+      <div class="level-track" role="img" aria-label="Three review levels from least to most oversight: auto-eligible, agent review, human review.">
+        <article class="level" data-level="auto">
+          <h3>Auto-eligible</h3>
+          <p>Low-risk change that passed every gate cleanly.</p>
+        </article>
+        <article class="level" data-level="agent">
+          <h3>Agent review</h3>
+          <p>Moderate scope where deterministic plus agent review is sufficient.</p>
+        </article>
+        <article class="level" data-level="human">
+          <h3>Human review</h3>
+          <p>High risk, ambiguity, or any failed validation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="human" aria-labelledby="human-title">
+      <p class="section-number">06</p>
+      <h2 id="human-title">When human review is always required</h2>
+      <div class="prose">
+        <p>
+          Some categories of change carry enough inherent risk that no amount of automated
+          confidence can lower them. These always route to a person, regardless of how
+          clean the gates are:
+        </p>
+      </div>
+      <div class="mandatory-grid">
+        <article class="mandatory-card">
+          <h3>Authentication &amp; authorization</h3>
+          <p>Login, sessions, permissions, tokens, and access control.</p>
+        </article>
+        <article class="mandatory-card">
+          <h3>Money movement</h3>
+          <p>Billing, payments, commissions, payouts, and pricing.</p>
+        </article>
+        <article class="mandatory-card">
+          <h3>Regulated data</h3>
+          <p>PCI, PHI, HIPAA, SOC, and other compliance-sensitive information.</p>
+        </article>
+        <article class="mandatory-card">
+          <h3>Migrations &amp; destructive operations</h3>
+          <p>Production data migrations and anything irreversible.</p>
+        </article>
+        <article class="mandatory-card">
+          <h3>Broad architectural change</h3>
+          <p>Wide-reaching changes that affect many systems at once.</p>
+        </article>
+        <article class="mandatory-card">
+          <h3>Ambiguity &amp; repeated failure</h3>
+          <p>Unclear requirements, novel patterns, or repeated remediation loops.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="graduation" aria-labelledby="graduation-title">
+      <p class="section-number">07</p>
+      <h2 id="graduation-title">How authority grows and shrinks</h2>
+      <div class="prose">
+        <p>
+          "Graduated" is the key word: authority is not granted once and kept forever. It
+          moves with the track record of a kind of change.
+        </p>
+      </div>
+      <div class="direction-grid">
+        <article class="direction-card" data-direction="up">
+          <h3>Authority increases when</h3>
+          <p>
+            Similar changes consistently pass deterministic validation, agent review,
+            security and compliance checks, any required human review, and post-merge
+            quality signals. A reliable history earns lighter-touch review.
+          </p>
+        </article>
+        <article class="direction-card" data-direction="down">
+          <h3>Authority decreases when</h3>
+          <p>
+            Changes produce regressions, repeated failures, escaped defects, policy
+            violations, or excessive remediation loops. A weak track record earns more
+            oversight, never less.
+          </p>
+        </article>
+      </div>
+      <div class="prose">
+        <p>
+          Crucially, the system can only ever <strong>tighten</strong> review based on a
+          poor history — it never loosens review below what the risk of a change demands.
+        </p>
+      </div>
+    </section>
+
+    <section id="not" aria-labelledby="not-title">
+      <p class="section-number">08</p>
+      <h2 id="not-title">What it is not</h2>
+      <div class="prose">
+        <p>
+          Because the idea is easy to misread, it is worth being precise about what
+          Graduated Review Authority does <em>not</em> mean:
+        </p>
+      </div>
+      <ul class="negation-list">
+        <li>It does not mean AI approves everything.</li>
+        <li>It does not make human review disappear.</li>
+        <li>It does not let prompts replace tests.</li>
+        <li>It does not let natural-language rules replace deterministic gates.</li>
+        <li>It does not let a confidence score override failed validation.</li>
+        <li>It does not put speed ahead of correctness.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-summary">
+      The question GRA asks of every change is not "can the AI do this?" but
+      "has this change earned a lighter review?"
+    </p>
+    <p class="footer-meta">Graduated Review Authority</p>
+  </footer>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
