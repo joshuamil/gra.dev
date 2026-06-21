@@ -39,9 +39,9 @@
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://gra.dev/" },
     "datePublished": "2026-06-21",
     "dateModified": "2026-06-21",
-    "author": { "@type": "Person", "name": "Josh Miller", "url": "https://jo5h.com" },
-    "creator": { "@type": "Person", "name": "Josh Miller", "url": "https://jo5h.com" },
-    "publisher": { "@type": "Person", "name": "Josh Miller", "url": "https://jo5h.com" },
+    "author": { "@type": "Person", "name": "Josh Miller", "url": "https://www.linkedin.com/in/joshuamil/" },
+    "creator": { "@type": "Person", "name": "Josh Miller", "url": "https://www.linkedin.com/in/joshuamil/" },
+    "publisher": { "@type": "Person", "name": "Josh Miller", "url": "https://www.linkedin.com/in/joshuamil/" },
     "about": {
       "@type": "DefinedTerm",
       "name": "Graduated Review Authority",
@@ -161,11 +161,7 @@
     <section id="principle" aria-labelledby="principle-title">
       <p class="section-number">03</p>
       <h2 id="principle-title">The core idea</h2>
-      <figure class="pull-quote">
-        <blockquote>
-          <p>Generation is not authority. The pipeline is the authority.</p>
-        </blockquote>
-      </figure>
+      <p class="statement">Generation is not authority. The pipeline is the authority.</p>
       <div class="prose">
         <p>
           Anyone, whether a person or an agent, can write code, tests, or a remediation plan.
@@ -410,7 +406,7 @@
         <caption>How each axis is scored</caption>
         <thead>
           <tr>
-            <th scope="col">Value</th>
+            <td></td>
             <th scope="col">Generation load (G)</th>
             <th scope="col">Review load (R)</th>
           </tr>
@@ -443,6 +439,54 @@
           </tr>
         </tbody>
       </table>
+      <figure class="continuum">
+        <svg class="continuum-svg" viewBox="0 0 392 256" role="img" aria-labelledby="continuum-title continuum-desc" preserveAspectRatio="xMidYMid meet">
+          <title id="continuum-title">Review load rises with generation load, then climbs faster past G 5</title>
+          <desc id="continuum-desc">A line chart. The horizontal axis is increasing complexity, marked 1, 2, 3, 5, and 8. Two lines, generation load and review load, rise together through 1, 2, and 3. At 5 the review-load line steps above generation load and from there rises faster, reaching 13 when generation load is 8. The widening gap between the lines is the review margin that heavy generation adds.</desc>
+
+          <line class="continuum-axis" x1="52" y1="206" x2="356" y2="206" />
+          <text class="continuum-axis-title" x="204" y="244" text-anchor="middle">Increasing complexity &#8594;</text>
+          <text class="continuum-axis-title" x="18" y="123" text-anchor="middle" transform="rotate(-90 18 123)">Load &#8594;</text>
+
+          <polygon class="continuum-margin" points="196,169 264,144 332,106 332,44 264,106" />
+
+          <line class="continuum-divider" x1="264" y1="40" x2="264" y2="206" />
+          <text class="continuum-divider-label" x="264" y="34" text-anchor="middle">G reaches 5</text>
+
+          <polyline class="continuum-series continuum-series-g" points="60,194 128,181 196,169 264,144 332,106" />
+          <polyline class="continuum-series continuum-series-r" points="60,194 128,181 196,169 264,106 332,44" />
+
+          <g class="continuum-node-g">
+            <circle cx="60" cy="194" r="3.5" />
+            <circle cx="128" cy="181" r="3.5" />
+            <circle cx="196" cy="169" r="3.5" />
+            <circle cx="264" cy="144" r="3.5" />
+            <circle cx="332" cy="106" r="3.5" />
+          </g>
+          <g class="continuum-node-r">
+            <circle cx="264" cy="106" r="3.5" />
+            <circle cx="332" cy="44" r="3.5" />
+          </g>
+
+          <g class="continuum-series-label">
+            <text class="continuum-series-label-g" x="338" y="109" text-anchor="start">G</text>
+            <text class="continuum-series-label-r" x="338" y="47" text-anchor="start">R</text>
+          </g>
+
+          <g class="continuum-head">
+            <text x="60" y="222" text-anchor="middle">1</text>
+            <text x="128" y="222" text-anchor="middle">2</text>
+            <text x="196" y="222" text-anchor="middle">3</text>
+            <text x="264" y="222" text-anchor="middle">5</text>
+            <text x="332" y="222" text-anchor="middle">8</text>
+          </g>
+        </svg>
+        <figcaption>
+          Through small and moderate work, review load tracks generation load. Once generation
+          load reaches 5, the build is large enough that review carries an added margin, and from
+          there review load climbs faster than generation.
+        </figcaption>
+      </figure>
       <div class="prose">
         <p>
           The two axes combine into a single estimate:
@@ -459,15 +503,18 @@
       </div>
       <div class="level-track" role="img" aria-label="How estimated review load maps to the three GRA review levels: low review load to auto-eligible, moderate to agent review, high to human review.">
         <article class="level" data-level="auto">
-          <h3>Low review load (R 1&ndash;2)</h3>
+          <h3>Low review load</h3>
+          <p class="level-range">R 1&ndash;2</p>
           <p>Self-evident, locally scoped change. Estimated toward auto-eligible: light gates and, at most, a peer glance.</p>
         </article>
         <article class="level" data-level="agent">
-          <h3>Moderate review load (R 3&ndash;5)</h3>
+          <h3>Moderate review load</h3>
+          <p class="level-range">R 3&ndash;5</p>
           <p>Some ambiguity or an owned contract. Estimated toward agent review and a standard gate with a contract check.</p>
         </article>
         <article class="level" data-level="human">
-          <h3>High review load (R 8)</h3>
+          <h3>High review load</h3>
+          <p class="level-range">R 8+</p>
           <p>Cross-team contract or security and data-integrity risk. Estimated toward human review and senior sign-off.</p>
         </article>
       </div>
@@ -543,7 +590,7 @@
     </p>
     <p class="footer-meta">Graduated Review Authority</p>
     <p class="footer-attribution">
-      A concept by <a href="https://jo5h.com" rel="author">Josh Miller</a>
+      A concept by <a href="https://www.linkedin.com/in/joshuamil/" rel="author">Josh Miller</a>
     </p>
     <p class="footer-top">
       <a href="#top">Back to top</a>
