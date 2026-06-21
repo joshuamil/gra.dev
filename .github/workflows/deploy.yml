@@ -1,0 +1,56 @@
+name: Deploy gra.dev
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-gra-dev
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: wrking-production-gra
+  CLOUDFRONT_DISTRIBUTION_ID: E1FH6PHW9L9J5L
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync static assets to S3
+        run: |
+          aws s3 sync . "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "*" \
+            --include "index.html" \
+            --include "styles.css" \
+            --include "main.js" \
+            --include "section-nav.js"
+
+      - name: Set JavaScript content types
+        run: |
+          for file in main.js section-nav.js; do
+            aws s3 cp "s3://${S3_BUCKET}/${file}" "s3://${S3_BUCKET}/${file}" \
+              --content-type "text/javascript" \
+              --metadata-directive REPLACE
+          done
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
+            --paths "/*"
