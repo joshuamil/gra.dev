@@ -27,6 +27,9 @@ The page walks through the model in nine sections:
 | `index.html` | The full page content and structure |
 | `styles.css` | All styling, design tokens, and responsive layout |
 | `main.js` | Optional conveniences for the navigation menu (close on selection, Escape, or outside click) |
+| `favicon.svg` | Site favicon, a graduated three-bar mark in the review-level colors |
+| `robots.txt` | Crawler directives and a pointer to the sitemap |
+| `sitemap.xml` | Sitemap listing the single canonical URL for search engines |
 
 This is a dependency-free static site with no build step, no framework, and no package manager. It is plain HTML, CSS, and ES modules.
 

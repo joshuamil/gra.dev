@@ -38,7 +38,10 @@ jobs:
             --exclude "*" \
             --include "index.html" \
             --include "styles.css" \
-            --include "main.js"
+            --include "main.js" \
+            --include "favicon.svg" \
+            --include "robots.txt" \
+            --include "sitemap.xml"
 
       - name: Set JavaScript content types
         run: |
