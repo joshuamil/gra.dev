@@ -8,8 +8,9 @@ The model rests on three sources of evidence (deterministic gates, agent review,
 
 ## Docs
 
-- [Graduated Review Authority: full explainer](https://gra.dev/): The complete model in nine sections: what it is, why it exists, the core idea, the three sources of evidence, how a change earns its review level, when human review is always required, how authority grows and shrinks, where it connects to planning, and what it is not.
-- [Project overview in Markdown](https://raw.githubusercontent.com/joshuamil/gra.dev/main/README.md): A concise Markdown summary of the model and the nine sections of the page.
+- [Graduated Review Authority: full explainer in Markdown](https://gra.dev/index.html.md): The complete page content as clean Markdown, covering all ten sections from what it is through the wider context.
+- [Graduated Review Authority: full explainer](https://gra.dev/): The same content as the published HTML page.
+- [Project overview in Markdown](https://raw.githubusercontent.com/joshuamil/gra.dev/main/README.md): A concise Markdown summary of the model.
 
 ## Optional
 

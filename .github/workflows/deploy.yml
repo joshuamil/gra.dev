@@ -37,6 +37,7 @@ jobs:
             --delete \
             --exclude "*" \
             --include "index.html" \
+            --include "index.html.md" \
             --include "styles.css" \
             --include "main.js" \
             --include "favicon.svg" \
@@ -52,6 +53,12 @@ jobs:
               --content-type "text/javascript" \
               --metadata-directive REPLACE
           done
+
+      - name: Set Markdown content type
+        run: |
+          aws s3 cp "s3://${S3_BUCKET}/index.html.md" "s3://${S3_BUCKET}/index.html.md" \
+            --content-type "text/markdown; charset=utf-8" \
+            --metadata-directive REPLACE
 
       - name: Set font content type and cache headers
         run: |

@@ -25,6 +25,7 @@ The page walks through the model in nine sections:
 | File | Purpose |
 | --- | --- |
 | `index.html` | The full page content and structure |
+| `index.html.md` | Markdown mirror of the page for LLMs, per the llmstxt.org spec |
 | `styles.css` | All styling, design tokens, and responsive layout |
 | `main.js` | Optional conveniences for the navigation menu (close on selection, Escape, or outside click) |
 | `favicon.svg` | Site favicon, a graduated three-bar mark in the review-level colors |
