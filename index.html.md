@@ -105,6 +105,10 @@ Taken together, this is the **feedback loop** that makes the model adaptive. The
 
 Crucially, the system can only ever **tighten** review based on a poor history. It never loosens review below what the risk of a change demands.
 
+### The model governs itself
+
+GRA holds itself to its own rule. How much authority the system is given, how far review is allowed to move from a person toward the pipeline, is decided the same way GRA decides anything: by the evidence a track record has earned, never by confidence that the machinery works. Building the means to measure a signal is not the same as earning the right to act on it. Until accumulated outcomes show that lighter review held up, the system routes attention to where it is needed rather than transferring authority away from people. A pipeline that graduated its own authority on its own unproven gates would be committing the circular reasoning GRA exists to prevent.
+
 ## 08. Where this connects to planning
 
 GRA decides how much review a change needs at merge time. Long before that, teams have to estimate the work, and the model they use to size it is built on the same instinct about risk.
@@ -141,6 +145,7 @@ Because the idea is easy to misread, it is worth being precise about what Gradua
 - It does not let natural-language rules replace deterministic gates.
 - It does not let a change weaken the tests that judge it.
 - It does not let an author, human or AI, review its own work.
+- It does not graduate authority on a change passing its own gates; only how it behaves after it ships can do that.
 - It does not fall back to opinion when a required check cannot run.
 - It does not let a confidence score override failed validation.
 - It does not put speed ahead of correctness.
