@@ -36,17 +36,19 @@ if (nav instanceof HTMLDetailsElement) {
 /**
  * Privacy-friendly, cookieless page analytics via GoatCounter. Loaded here
  * instead of as a tag in index.html so the page carries no inline script and
- * its Markdown mirror stays in sync. No request is made when the visitor
- * signals Do Not Track or Global Privacy Control.
+ * its Markdown mirror stays in sync. It loads only on the production host, so
+ * the CloudFront domain, local files, and previews never count, and it makes
+ * no request when the visitor signals Do Not Track or Global Privacy Control.
  */
 const ANALYTICS_ENDPOINT = "https://gra.goatcounter.com/count";
+const ANALYTICS_HOSTS = ["gra.dev", "www.gra.dev"];
 
 const privacySignalSet =
   navigator.doNotTrack === "1" ||
   window.doNotTrack === "1" ||
   navigator.globalPrivacyControl === true;
 
-if (!privacySignalSet) {
+if (!privacySignalSet && ANALYTICS_HOSTS.includes(location.hostname)) {
   const analytics = document.createElement("script");
   analytics.async = true;
   analytics.src = "https://gc.zgo.at/count.js";
