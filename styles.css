@@ -602,6 +602,21 @@ td {
   stroke-width: 1;
 }
 
+.continuum-grid line {
+  stroke: var(--color-hairline);
+  stroke-width: 1;
+  opacity: 0.45;
+}
+
+.continuum-tick text {
+  fill: var(--color-muted);
+  font-size: 9px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
 .continuum-margin {
   fill: var(--color-risk);
   fill-opacity: 0.14;

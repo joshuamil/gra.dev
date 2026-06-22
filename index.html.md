@@ -125,6 +125,8 @@ How each axis is scored:
 | 5 | Large: a multi-surface feature | An owned contract; integration risk |
 | 8 | Cross-cutting: schema and flows | A cross-team contract or security and data-integrity risk |
 
+Plotted against increasing complexity, both axes use the same Fibonacci scale on each side of the chart. Through small and moderate work, review load tracks generation load. Once generation load reaches 5, the build is large enough that review carries an added margin, and from there review load climbs faster than generation, reaching the next Fibonacci value of 13 when both axes score 8.
+
 The two axes combine into a single estimate: **story points are the Fibonacci value of R, stepped up one notch when G reaches 5 or more**. Review load sets the floor; heavy generation only adds a margin on top. A small build that touches a cross-team contract (G 3, R 8) still scores 8 points, because the review is what dominates, while a large but self-contained feature (G 5, R 3) lands at 5.
 
 The review-load axis is also the earliest read on GRA. The heavier the review a change is expected to need, the higher the level it is likely to land in:

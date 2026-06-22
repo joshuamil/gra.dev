@@ -483,9 +483,18 @@
       <figure class="continuum">
         <svg class="continuum-svg" viewBox="0 0 392 256" role="img" aria-labelledby="continuum-title continuum-desc" preserveAspectRatio="xMidYMid meet">
           <title id="continuum-title">Review load rises with generation load, then climbs faster past G 5</title>
-          <desc id="continuum-desc">A line chart. The horizontal axis is increasing complexity, marked 1, 2, 3, 5, and 8. Two lines, generation load and review load, rise together through 1, 2, and 3. At 5 the review-load line steps above generation load and from there rises faster, reaching 13 when generation load is 8. The widening gap between the lines is the review margin that heavy generation adds.</desc>
+          <desc id="continuum-desc">A line chart. The horizontal axis is increasing complexity, marked 1, 2, 3, 5, and 8. The vertical axis is load on the same Fibonacci scale, marked 1, 2, 3, 5, 8, and 13. Two lines, generation load and review load, rise together through 1, 2, and 3. At 5 the review-load line steps above generation load and from there rises faster, reaching 13 on the vertical axis when generation load is 8. The widening gap between the lines is the review margin that heavy generation adds.</desc>
 
           <line class="continuum-axis" x1="52" y1="206" x2="356" y2="206" />
+          <line class="continuum-axis" x1="52" y1="40" x2="52" y2="206" />
+          <g class="continuum-grid" aria-hidden="true">
+            <line x1="52" y1="194" x2="356" y2="194" />
+            <line x1="52" y1="181" x2="356" y2="181" />
+            <line x1="52" y1="169" x2="356" y2="169" />
+            <line x1="52" y1="144" x2="356" y2="144" />
+            <line x1="52" y1="106" x2="356" y2="106" />
+            <line x1="52" y1="44" x2="356" y2="44" />
+          </g>
           <text class="continuum-axis-title" x="204" y="244" text-anchor="middle">Increasing complexity &#8594;</text>
           <text class="continuum-axis-title" x="18" y="123" text-anchor="middle" transform="rotate(-90 18 123)">Load &#8594;</text>
 
@@ -520,6 +529,15 @@
             <text x="196" y="222" text-anchor="middle">3</text>
             <text x="264" y="222" text-anchor="middle">5</text>
             <text x="332" y="222" text-anchor="middle">8</text>
+          </g>
+
+          <g class="continuum-tick" aria-hidden="true">
+            <text x="46" y="194">1</text>
+            <text x="46" y="181">2</text>
+            <text x="46" y="169">3</text>
+            <text x="46" y="144">5</text>
+            <text x="46" y="106">8</text>
+            <text x="46" y="44">13</text>
           </g>
         </svg>
         <figcaption>
