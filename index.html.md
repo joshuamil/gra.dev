@@ -147,7 +147,7 @@ Because the idea is easy to misread, it is worth being precise about what Gradua
 - It does not let natural-language rules replace deterministic gates.
 - It does not let a change weaken the tests that judge it.
 - It does not let an author, human or AI, review its own work.
-- It does not graduate authority on a clean run before merge alone.
+- It does not let a change earn lighter review just by passing its checks before it ships.
 - It does not fall back to opinion when a required check cannot run.
 - It does not let a confidence score override failed validation.
 - It does not put speed ahead of correctness.
