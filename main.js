@@ -32,3 +32,24 @@ if (nav instanceof HTMLDetailsElement) {
     }
   });
 }
+
+/**
+ * Privacy-friendly, cookieless page analytics via GoatCounter. Loaded here
+ * instead of as a tag in index.html so the page carries no inline script and
+ * its Markdown mirror stays in sync. No request is made when the visitor
+ * signals Do Not Track or Global Privacy Control.
+ */
+const ANALYTICS_ENDPOINT = "https://gra.goatcounter.com/count";
+
+const privacySignalSet =
+  navigator.doNotTrack === "1" ||
+  window.doNotTrack === "1" ||
+  navigator.globalPrivacyControl === true;
+
+if (!privacySignalSet) {
+  const analytics = document.createElement("script");
+  analytics.async = true;
+  analytics.src = "https://gc.zgo.at/count.js";
+  analytics.setAttribute("data-goatcounter", ANALYTICS_ENDPOINT);
+  document.head.appendChild(analytics);
+}
