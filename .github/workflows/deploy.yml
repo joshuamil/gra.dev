@@ -44,7 +44,8 @@ jobs:
             --include "robots.txt" \
             --include "sitemap.xml" \
             --include "llms.txt" \
-            --include "fonts/*"
+            --include "fonts/*" \
+            --include "assets/*"
 
       - name: Set JavaScript content types
         run: |
